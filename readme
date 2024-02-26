@@ -1,0 +1,58 @@
+
+MQTT Camera Server
+This project provides an alternative to traditional HTTP camera servers by leveraging MQTT (Message Queuing Telemetry Transport) protocol for image transmission. Instead of continuously streaming images over HTTP, the server sends pictures in parts via MQTT, which are then assembled on the client side.
+
+Installation
+Requirements
+Arduino IDE for ESP32 (for the sender code)
+Python 3.x with Paho MQTT and Pygame installed (for the receiver/viewer code)
+Steps
+Clone the repository:
+
+bash
+Copy code
+git clone https://github.com/MrGloriousFast/esp32_mqtt_livestream
+Flash the Arduino sketch (mqtt_camera_server.ino) onto your ESP32 device after configuring it with your WiFi credentials and MQTT broker's address.
+
+Run the Python script (receiver_viewer.py) on your computer. Ensure you have the necessary dependencies installed.
+
+Sender (ESP32)
+The sender code (mqtt_camera_server.ino) is written for ESP32, utilizing Arduino framework. It establishes a connection to the WiFi network and MQTT broker. The sender captures images using the ESP32 camera module and sends them in parts via MQTT.
+
+Key functionalities:
+
+Capturing images
+Sending image parts over MQTT
+Configurable settings for resolution, quality, and frames per second (FPS)
+Control motors via MQTT messages (optional)
+Receiver/Viewer (Python)
+The receiver/viewer script (receiver_viewer.py) runs on a computer (e.g., Raspberry Pi) and subscribes to the MQTT topics where image parts are published. It assembles the received parts to reconstruct the image and displays it using Pygame.
+
+Key functionalities:
+
+Receiving image parts via MQTT
+Assembling parts into a complete image
+Rendering the image on the Pygame window
+Calculating and printing average brightness of the image
+Usage
+Start the sender (ESP32) device, ensuring it connects to the WiFi network and MQTT broker successfully.
+Run the receiver/viewer script on your computer.
+The script will continuously listen for incoming image parts and assemble them into a complete image, displaying it in a Pygame window.
+Configuration
+Sender (ESP32)
+WiFi SSID and password: Configure the ssid and password variables.
+MQTT broker address: Set the mqtt_server variable.
+Device IP address: Adjust the myIPAdress variable.
+Other settings such as motor control pins, resolution, quality, and FPS can be configured within the code.
+Receiver/Viewer (Python)
+MQTT broker address: Modify the client.connect() function call with your broker's address.
+Topic subscription: Subscribe to the appropriate topics where image parts are published (client.subscribe()).
+Additional configurations such as window size, frame rate for brightness calculation, etc., can be adjusted in the script.
+Notes
+Ensure your MQTT broker is set up and running correctly.
+Adjust network configurations and permissions as needed for seamless communication between sender and receiver.
+Contributing
+Contributions are welcome! Feel free to submit bug reports, feature requests, or pull requests.
+
+License
+This project is licensed under the MIT License. See the LICENSE file for details.
